@@ -80,7 +80,7 @@ class CustomSlidableAction extends StatelessWidget {
   final EdgeInsets? padding;
 
   /// Typically the action's icon or label.
-  final Widget child;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +141,7 @@ class SlidableAction extends StatelessWidget {
     this.label,
     this.borderRadius = BorderRadius.zero,
     this.padding,
+    this.titleWidget,
   })  : assert(flex > 0),
         assert(icon != null || label != null);
 
@@ -176,6 +177,10 @@ class SlidableAction extends StatelessWidget {
   /// Padding of the OutlinedButton
   final EdgeInsets? padding;
 
+  //* added by yif
+  //2024/07/27
+  final Widget? titleWidget;
+
   @override
   Widget build(BuildContext context) {
     final children = <Widget>[];
@@ -203,16 +208,17 @@ class SlidableAction extends StatelessWidget {
 
     final child = children.length == 1
         ? children.first
-        : Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ...children.map(
-                (child) => Flexible(
-                  child: child,
-                ),
-              )
-            ],
-          );
+        : titleWidget ??
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ...children.map(
+                  (child) => Flexible(
+                    child: child,
+                  ),
+                )
+              ],
+            );
 
     return CustomSlidableAction(
       borderRadius: borderRadius,
